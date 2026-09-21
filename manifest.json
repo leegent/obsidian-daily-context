@@ -1,9 +1,9 @@
 {
   "id": "daily-context",
   "name": "Daily Context",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "minAppVersion": "1.11.0",
-  "description": "Add location, place names, and daily weather to your journal on mobile.",
+  "description": "Enrich daily notes with real-world context: GPS location, addresses, and daily weather on mobile using AMap.",
   "author": "Leegent",
   "isDesktopOnly": false,
   "authorUrl": "https://github.com/leegent"

@@ -1,6 +1,6 @@
 {
   "name": "obsidian-daily-context",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": true,
   "type": "module",
   "scripts": {
@@ -24,5 +24,6 @@
   "homepage": "https://github.com/leegent/obsidian-daily-context#readme",
   "bugs": {
     "url": "https://github.com/leegent/obsidian-daily-context/issues"
-  }
+  },
+  "description": "Enrich daily notes with real-world context: GPS location, addresses, and daily weather on mobile using AMap."
 }

@@ -1,8 +1,10 @@
 # Daily Context
 
-为 Obsidian 移动端日记记录当前位置和当天的天气，地址与天气由高德提供。支持 Obsidian 移动端 1.11.0 及以上版本。
+为每日笔记补充现实世界上下文：GPS 地理位置（location）、详细地址和当日天气（weather）。适用于 Obsidian 移动端，地址与天气由高德提供。
 
-Automatically add location and daily weather to your journal in Obsidian Mobile using AMap.
+Enrich your daily notes with real-world context: GPS location, addresses, and daily weather. Built for Obsidian Mobile, with address lookup and weather data from AMap.
+
+支持 Obsidian 移动端 1.11.0 及以上版本。
 
 ```yaml
 location: 31.2304,121.4737
