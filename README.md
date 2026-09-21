@@ -12,7 +12,7 @@ weather: 多云 22～29℃
 
 ## 安装
 
-1. 解压 `dist/daily-context-0.1.6.zip`，将 `daily-context` 文件夹放入手机笔记库的 `.obsidian/plugins/` 下。
+1. 从 [GitHub Releases](https://github.com/leegent/obsidian-daily-context/releases) 下载 `main.js` 和 `manifest.json`，放入手机笔记库的 `.obsidian/plugins/daily-context/` 文件夹。
 2. 确认 `.obsidian/plugins/daily-context/main.js` 和 `manifest.json` 已就位，重启 Obsidian。
 3. 在「设置 → 第三方插件」中启用 Daily Context。
 
@@ -31,3 +31,7 @@ weather: 多云 22～29℃
 ## 隐私
 
 插件将坐标通过 HTTPS 发送给高德，用于查询地址和天气。Key 以明文保存在笔记库的 `.obsidian/plugins/daily-context/data.json` 中，同步插件配置时可能一并同步。
+
+## 许可证
+
+[MIT](LICENSE)

@@ -4,6 +4,7 @@
   "version": "0.1.6",
   "minAppVersion": "1.11.0",
   "description": "Add location, place names, and daily weather to your journal on mobile.",
-  "author": "Daily Context",
-  "isDesktopOnly": false
+  "author": "Leegent",
+  "isDesktopOnly": false,
+  "authorUrl": "https://github.com/leegent"
 }
