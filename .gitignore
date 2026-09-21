@@ -1,0 +1,7 @@
+node_modules/
+main.js
+dist/
+data.json
+.env
+.env.*
+.DS_Store

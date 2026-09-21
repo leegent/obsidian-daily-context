@@ -1,0 +1,16 @@
+{
+  "name": "obsidian-daily-context",
+  "version": "0.1.6",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && node esbuild.config.mjs",
+    "test": "node scripts/test.mjs",
+    "test:live": "node scripts/smoke.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.5",
+    "obsidian": "1.13.1",
+    "typescript": "^5.8.3"
+  }
+}
