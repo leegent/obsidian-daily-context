@@ -1,10 +1,26 @@
 # Daily Context
 
-为每日笔记补充现实世界上下文：GPS 地理位置（location）、详细地址和当日天气（weather）。适用于 Obsidian 移动端，地址与天气由高德提供。
+Enrich your daily notes with real-world context: GPS location, addresses, and daily weather. Built for Obsidian Mobile, with address lookup and weather data from AMap. Requires Obsidian Mobile 1.11.0 or later.
 
-Enrich your daily notes with real-world context: GPS location, addresses, and daily weather. Built for Obsidian Mobile, with address lookup and weather data from AMap.
+## Installation
 
-支持 Obsidian 移动端 1.11.0 及以上版本。
+1. Download `main.js` and `manifest.json` from [GitHub Releases](https://github.com/leegent/obsidian-daily-context/releases).
+2. Place both files in your vault's `.obsidian/plugins/daily-context/` folder.
+3. Restart Obsidian and enable Daily Context in Settings → Community plugins.
+
+## Usage
+
+Enter your AMap Web Service API key in Settings → Daily Context. Changes save automatically.
+
+Open today's note and choose “记录地点与天气” (Record location and weather) from the mobile ribbon or command palette. Allow location access when prompted. Enable automatic capture in settings to run this when opening today's note.
+
+The note title must start with today's date. The default format is `YYYY-MM-DD`, and custom text can follow the date. A populated `weather` property skips capture. Existing coordinates are reused; otherwise, the plugin requests GPS location. To record again, clear `location`, `address`, and `weather`, then run the command.
+
+Coordinates are sent to AMap over HTTPS for address and weather lookup. The API key is stored in plain text in `.obsidian/plugins/daily-context/data.json` and may be included when syncing plugin settings.
+
+## 中文说明
+
+为每日笔记补充现实世界上下文：GPS 地理位置（location）、详细地址和当日天气（weather）。适用于 Obsidian 移动端 1.11.0 及以上版本，地址与天气由高德提供。
 
 ```yaml
 location: 31.2304,121.4737

@@ -26,6 +26,7 @@ jobs:
 
       - name: Test and build plugin
         run: |
+          npm run lint
           npm test
           npm run build
 

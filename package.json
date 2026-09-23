@@ -1,18 +1,22 @@
 {
   "name": "obsidian-daily-context",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "tsc --noEmit && node esbuild.config.mjs",
     "test": "node scripts/test.mjs",
     "test:live": "node scripts/smoke.mjs",
-    "version": "node version-bump.mjs && git add manifest.json versions.json"
+    "version": "node version-bump.mjs && git add manifest.json versions.json",
+    "lint": "eslint src"
   },
   "devDependencies": {
     "esbuild": "0.25.5",
+    "eslint": "^9.39.5",
+    "moment": "^2.29.4",
     "obsidian": "1.13.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.70.1"
   },
   "main": "main.js",
   "author": "Leegent",

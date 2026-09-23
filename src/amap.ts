@@ -1,7 +1,7 @@
 import { compactPlace } from './place';
 import { ContextError, Coordinates, Frontmatter, text, weatherSummary } from './context';
 
-type JsonObject = Record<string, any>;
+type JsonObject = Record<string, unknown>;
 export type Transport = (url: string) => Promise<unknown>;
 const object = (value: unknown): JsonObject => value && typeof value === 'object' && !Array.isArray(value) ? value as JsonObject : {};
 
@@ -11,16 +11,16 @@ export class AmapClient {
   private async call(path: string, params: Record<string, string>): Promise<JsonObject> {
     const query = new URLSearchParams({ ...params, key: this.key, output: 'JSON' });
     let result: unknown;
-    let timer: ReturnType<typeof setTimeout> | undefined;
+    let timer: number | undefined;
     try {
       result = await Promise.race([
         this.transport(`https://restapi.amap.com/v3/${path}?${query}`),
-        new Promise<never>((_, reject) => { timer = setTimeout(() => reject(new Error()), 20000); }),
+        new Promise<never>((_, reject) => { timer = window.setTimeout(() => reject(new Error()), 20000); }),
       ]);
     } catch {
       // Transport exceptions can contain the URL and secret; never display them.
       throw new ContextError('无法连接高德，请检查网络后重试。');
-    } finally { if (timer) clearTimeout(timer); }
+    } finally { if (timer !== undefined) window.clearTimeout(timer); }
     const data = object(result);
     if (data.status !== '1') {
       const code = /^\d{5}$/.test(String(data.infocode)) ? String(data.infocode) : '未知';
@@ -46,10 +46,10 @@ export class AmapClient {
   async weather(adcode: string, date: string): Promise<Frontmatter> {
     if (!/^\d{6}$/.test(adcode)) throw new ContextError('该位置没有可用的天气行政区代码。');
     const result = await this.call('weather/weatherInfo', { city: adcode, extensions: 'all' });
-    const forecasts = Array.isArray(result.forecasts) ? result.forecasts : [];
+    const forecasts: unknown[] = Array.isArray(result.forecasts) ? result.forecasts : [];
     for (const item of forecasts) {
       const forecast = object(item);
-      const casts = Array.isArray(forecast.casts) ? forecast.casts : [];
+      const casts: unknown[] = Array.isArray(forecast.casts) ? forecast.casts : [];
       const cast = casts.find((item: unknown) => object(item).date === date);
       if (cast) return weatherSummary(object(cast));
     }

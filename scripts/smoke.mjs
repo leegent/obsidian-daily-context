@@ -1,3 +1,4 @@
+globalThis.window = globalThis;
 import { readFile } from 'node:fs/promises';
 import { build } from 'esbuild';
 await build({ entryPoints: ['src/amap.ts'], bundle: true, platform: 'node', format: 'esm', outfile: 'dist/amap-smoke.mjs' });

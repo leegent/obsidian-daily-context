@@ -1,3 +1,4 @@
+Object.defineProperty(globalThis, 'window', { configurable: true, value: globalThis });
 import realMoment from 'moment';
 export const moment = realMoment;
 export const Platform = { isMobile: true };
