@@ -21,7 +21,7 @@ export class Plugin {
 export class PluginSettingTab {}
 export class Setting {}
 export class TFile {}
-export const getFrontMatterInfo = (content: string) => ({ exists: true, frontmatter: content });
+export const getFrontMatterInfo = (content: string) => ({ exists: content.trim().length > 0, frontmatter: content });
 export const parseYaml = JSON.parse;
 export let handler: (url: string) => Promise<unknown>;
 export function setHandler(fn: typeof handler) { handler = fn; }

@@ -1,7 +1,7 @@
 {
   "id": "daily-context",
   "name": "Daily Context",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "minAppVersion": "1.11.0",
   "description": "Enrich daily notes with real-world context: GPS location, addresses, and daily weather on mobile using AMap.",
   "author": "Leegent",

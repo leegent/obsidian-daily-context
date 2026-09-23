@@ -245,3 +245,38 @@ test('rapid settings edits apply immediately and persist in order without queryi
   assert.equal(persisted[1].amapKey, 'last');
   assert.equal(state.requests, 0);
 });
+
+
+test('blank note with no YAML or metadata cache triggers automatic fill', async () => {
+  const { plugin, state } = fixture({});
+  plugin.app.vault.read = async () => '';
+  plugin.app.metadataCache.getFileCache = () => null;
+  Object.defineProperty(globalThis, 'navigator', { configurable: true, value: { geolocation: { getCurrentPosition: (success: Function) => success({ coords: { latitude: 31.2304, longitude: 121.4737 } }) } } });
+  (plugin as any).saved = { amapKey: 'test-secret', autoFill: true };
+  await plugin.onload();
+  await new Promise(resolve => setTimeout(resolve, 10));
+  assert.equal(state.requests, 3); assert.equal(state.writes, 1);
+});
+test('opening again retries a failed operation but metadata events do not loop', async () => {
+  const { plugin, file, state, events } = fixture();
+  (plugin as any).saved = { amapKey: 'test-secret', autoFill: true };
+  setHandler(async () => { state.requests++; throw new Error('offline'); });
+  await plugin.onload();
+  await new Promise(resolve => setTimeout(resolve, 10));
+  events.changed(file);
+  await new Promise(resolve => setTimeout(resolve, 10));
+  assert.equal(state.requests, 1);
+  setHandler(async url => { state.requests++; return response(url); });
+  events['file-open'](file);
+  await new Promise(resolve => setTimeout(resolve, 10));
+  assert.equal(state.requests, 4); assert.equal(state.fm.weather, '多云转小雨 22～29℃');
+});
+test('active leaf event catches open event before active file switches', async () => {
+  const { plugin, file, state, events } = fixture();
+  state.active = { path: 'Other.md', extension: 'md', basename: 'Other' };
+  (plugin as any).saved = { amapKey: 'test-secret', autoFill: true };
+  await plugin.onload(); events['file-open'](file);
+  state.active = file; events['active-leaf-change']();
+  await new Promise(resolve => setTimeout(resolve, 10));
+  assert.equal(state.requests, 3); assert.equal(state.writes, 1);
+});

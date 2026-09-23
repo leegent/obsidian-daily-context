@@ -31,7 +31,11 @@ export default class DailyContextPlugin extends Plugin {
     };
     this.addCommand({ id: 'fill-daily-context', name: '记录地点与天气', icon: 'cloud-sun', callback: recordContext });
     this.addRibbonIcon('cloud-sun', '记录地点与天气', recordContext);
-    this.registerEvent(this.app.workspace.on('file-open', file => this.tryAuto(file)));
+    this.registerEvent(this.app.workspace.on('file-open', file => {
+      if (file) this.attempted.delete(`${today()}:${file.path}`);
+      this.tryAuto(file);
+    }));
+    this.registerEvent(this.app.workspace.on('active-leaf-change', () => this.tryAuto(this.app.workspace.getActiveFile())));
     this.registerEvent(this.app.metadataCache.on('changed', file => {
       if (file === this.app.workspace.getActiveFile()) this.tryAuto(file);
     }));
@@ -55,10 +59,8 @@ export default class DailyContextPlugin extends Plugin {
 
   private tryAuto(file: TFile | null): void {
     if (this.stopped || !file || file !== this.app.workspace.getActiveFile() || !this.settings.autoFill || !this.settings.amapKey || !this.isToday(file)) return;
-    if (!this.app.metadataCache.getFileCache(file)) return;
     const id = `${today()}:${file.path}`;
     if (this.attempted.has(id) || this.running.has(file)) return;
-    this.attempted.add(id);
     void this.fill(file, true);
   }
 
@@ -96,6 +98,11 @@ export default class DailyContextPlugin extends Plugin {
       const before = await this.readFrontmatter(file);
       if (automatic && file !== this.app.workspace.getActiveFile()) return;
       if (!blank(before.weather)) { if (!automatic) new Notice('weather 已有内容，已跳过补全。'); return; }
+      if (automatic) {
+        const id = `${date}:${path}`;
+        if (this.attempted.has(id)) return;
+        this.attempted.add(id);
+      }
       assertWgs84(before);
       const signature = locationSignature(before);
       if (!automatic) progress = new Notice('正在获取位置和当日天气…', 0);
