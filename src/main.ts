@@ -1,12 +1,14 @@
-import moment from 'moment';
-import { App, getFrontMatterInfo, Notice, parseYaml, Platform, Plugin, PluginSettingTab, requestUrl, Setting, SettingDefinitionRender, TFile } from 'obsidian';
+import type { Moment } from 'moment';
+import { App, getFrontMatterInfo, moment, Notice, parseYaml, Platform, Plugin, PluginSettingTab, requestUrl, Setting, SettingDefinitionRender, TFile } from 'obsidian';
 import { AmapClient } from './amap';
 import { assertWgs84, blank, ContextError, coordinates, Frontmatter, locationSignature, mergeContext } from './context';
 import { locate } from './location';
 
 interface Settings { amapKey: string; dateFormat: string; autoFill: boolean }
 const defaults: Settings = { amapKey: '', dateFormat: 'YYYY-MM-DD', autoFill: false };
-const today = (): string => moment().format('YYYY-MM-DD');
+// Obsidian exposes the callable Moment factory with namespace-shaped typings.
+const currentMoment = moment as unknown as () => Moment;
+const today = (): string => currentMoment().format('YYYY-MM-DD');
 
 export default class DailyContextPlugin extends Plugin {
   settings: Settings = { ...defaults };
@@ -48,7 +50,7 @@ export default class DailyContextPlugin extends Plugin {
 
   dailyTitle(): string {
     // Older settings may include date-based subdirectories; only the title matters.
-    return moment().format(this.settings.dateFormat).split('/').pop() || '';
+    return currentMoment().format(this.settings.dateFormat).split('/').pop() || '';
   }
 
   private isToday(file: TFile): boolean {
